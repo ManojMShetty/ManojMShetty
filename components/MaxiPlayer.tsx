@@ -5,7 +5,8 @@ import {MaxiExplainer, FPS, DURATION_FRAMES, WIDTH, HEIGHT} from '@/remotion/Max
 
 export default function MaxiPlayer() {
   return (
-    <div className="w-full overflow-hidden rounded-2xl border border-arc-dim shadow-arc-soft">
+    <div className="relative w-full overflow-hidden rounded-2xl glass-strong glow-arc">
+      <div className="absolute -inset-px rounded-2xl bg-gradient-to-br from-arc/40 via-transparent to-gold/30 opacity-50 blur-md -z-10" />
       <Player
         component={MaxiExplainer}
         durationInFrames={DURATION_FRAMES}
@@ -16,7 +17,7 @@ export default function MaxiPlayer() {
         loop
         autoPlay
         acknowledgeRemotionLicense
-        style={{width: '100%', height: 'auto'}}
+        style={{width: '100%', height: 'auto', display: 'block'}}
       />
     </div>
   );
