@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\"",
+    "clean:deep": "node -e \"['.next','node_modules','package-lock.json'].forEach(p=>require('fs').rmSync(p,{recursive:true,force:true}))\"",
+    "fresh": "npm run clean && npm run dev"
   },
   "dependencies": {
     "@remotion/player": "^4.0.0",
