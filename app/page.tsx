@@ -15,6 +15,8 @@ import {
   ArcGlow,
   FloatIn,
 } from '@/components/animations';
+import {MiniRobot, RobotWithSpeech, RobotTrio} from '@/components/MiniRobot';
+import {ScanlineSweep} from '@/components/JarvisCore';
 import {motion, useScroll, useTransform} from 'framer-motion';
 import {useRef} from 'react';
 
@@ -103,8 +105,12 @@ function Hero() {
       className="relative min-h-[100vh] pt-40 md:pt-48 pb-32 px-6 md:px-8 overflow-hidden"
     >
       <div className="absolute inset-0 grid-bg" aria-hidden />
-      <ArcGlow className="-top-40 -right-40 opacity-50" size={1000} />
+      <ArcGlow className="-top-40 -right-40 opacity-40" size={900} />
       <div className="absolute inset-0 spotlight opacity-50" aria-hidden />
+      {/* Mini robot peeking from top-right on desktop */}
+      <div className="absolute top-32 right-8 z-10 hidden md:block">
+        <MiniRobot tone="arc" size={96} pose="wave" label="Maxi, the AI mascot" />
+      </div>
 
       <div className="relative max-w-6xl mx-auto">
         <motion.div style={{y: titleY, opacity}}>
@@ -332,13 +338,21 @@ function Maxi() {
 
   return (
     <Section id="maxi" title="Maxi" eyebrow="02" subtitle="Featured · JARVIS-style voice AI">
+      {/* Mini robot crew floating above the explainer */}
+      <Reveal className="flex justify-end mb-6">
+        <RobotTrio />
+      </Reveal>
+
       {/* Featured explainer video — full width hero element of the section */}
       <Reveal className="mb-16">
         <div className="font-mono text-xs text-ink-muted tracking-[0.3em] flex items-center gap-3 mb-4">
           <span className="w-4 h-px bg-arc" />
           LIVE EXPLAINER · 45s · RENDERED IN REMOTION
         </div>
-        <MaxiPlayer />
+        <div className="relative overflow-hidden rounded-2xl">
+          <MaxiPlayer />
+          <ScanlineSweep />
+        </div>
       </Reveal>
 
       <div className="grid lg:grid-cols-[1.2fr,1fr] gap-12 items-start">
@@ -722,6 +736,14 @@ function Contact() {
     <Section id="contact" title="Let's talk" eyebrow="06">
       <div className="grid md:grid-cols-[1.2fr,1fr] gap-12 items-start">
         <div className="max-w-xl">
+          <Reveal className="mb-8">
+            <RobotWithSpeech
+              tone="gold"
+              size={84}
+              pose="wave"
+              message="Hey there. Want to build something?"
+            />
+          </Reveal>
           <Reveal>
             <p className="text-2xl md:text-3xl font-display leading-snug">
               I&apos;m looking for AI engineering roles where the work is{' '}
