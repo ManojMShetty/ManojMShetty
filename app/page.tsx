@@ -93,7 +93,6 @@ function Nav() {
 function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
   const {scrollYProgress} = useScroll({target: heroRef, offset: ['start start', 'end start']});
-  const photoY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
   const titleY = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
@@ -153,28 +152,8 @@ function Hero() {
           </Reveal>
         </motion.div>
 
-        {/* Photo + Live Maxi explainer area */}
-        <motion.div
-          style={{y: photoY}}
-          className="mt-24 grid md:grid-cols-[300px,1fr] gap-10 items-start"
-        >
-          <Reveal delay={0.6}>
-            <FloatIn>
-              <PortraitFrame />
-            </FloatIn>
-          </Reveal>
-
-          <Reveal delay={0.8} className="space-y-4">
-            <div className="font-mono text-xs text-ink-muted tracking-[0.3em] flex items-center gap-3">
-              <span className="w-4 h-px bg-arc" />
-              LIVE · MAXI EXPLAINER · 45s
-            </div>
-            <MaxiPlayer />
-          </Reveal>
-        </motion.div>
-
         {/* Scroll cue */}
-        <Reveal delay={1.6} className="absolute bottom-8 left-1/2 -translate-x-1/2">
+        <Reveal delay={1.6} className="absolute bottom-12 left-1/2 -translate-x-1/2">
           <motion.div
             animate={{y: [0, 8, 0], opacity: [0.4, 1, 0.4]}}
             transition={{duration: 2, repeat: Infinity}}
@@ -194,13 +173,13 @@ function Hero() {
 // =========================================================================
 function PortraitFrame() {
   return (
-    <div className="relative photo-frame aspect-[3/4] w-full max-w-[300px]">
+    <div className="relative photo-frame aspect-[3/4] w-full">
       {/* The actual photo. If it doesn't exist yet the frame still looks intentional. */}
       <Image
         src="/manoj-portrait.png"
         alt="Manoj M C"
         fill
-        sizes="300px"
+        sizes="(max-width: 1024px) 100vw, 420px"
         className="object-cover object-center z-10"
         priority
         onError={(e) => {
@@ -235,53 +214,102 @@ function PortraitFrame() {
 }
 
 // =========================================================================
-// About
+// About — photo + bio side-by-side, photo sticky on scroll
 // =========================================================================
 function About() {
   return (
     <Section title="About" eyebrow="01">
-      <div className="max-w-3xl text-lg md:text-xl text-ink-soft leading-relaxed space-y-5">
+      <div className="grid lg:grid-cols-[minmax(0,420px),1fr] gap-12 lg:gap-16 items-start">
+        {/* Photo column — sticky so it stays visible while the bio scrolls */}
         <Reveal>
-          <p>
-            I build agentic systems that <span className="text-ink">act</span>,
-            not just chat. Currently architecting{' '}
-            <a
-              href="https://xtrac.app"
-              className="text-arc hover:underline underline-offset-4"
-              target="_blank"
-              rel="noreferrer"
-            >
-              xTrac AI
-            </a>{' '}
-            — a self-configuring multi-agentic platform live with five enterprise
-            pilots — at iEllipse Technologies. Finishing my B.E. in CSE at
-            Dayananda Sagar University.
-          </p>
+          <div className="lg:sticky lg:top-32">
+            <FloatIn>
+              <PortraitFrame />
+            </FloatIn>
+            {/* Identity tag below photo */}
+            <div className="mt-6 flex flex-col gap-1.5 font-mono text-xs text-ink-muted tracking-[0.25em]">
+              <div className="flex items-center gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-arc animate-pulse-slow" />
+                <span>SUBJECT · MANOJ M C</span>
+              </div>
+              <div className="pl-[18px] text-[10px] tracking-[0.3em] text-ink-muted/60">
+                BENGALURU · IN-KA · 2026
+              </div>
+            </div>
+          </div>
         </Reveal>
-        <Reveal delay={0.15}>
-          <p>
-            On the side I built{' '}
-            <a
-              href="https://github.com/ManojMShetty/Maxi"
-              className="text-arc hover:underline underline-offset-4"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Maxi
-            </a>
-            , a voice-first personal AI where Claude Code is the reasoning brain
-            and the entire audio pipeline runs locally. 30+ versions, 27 MCP
-            tools, sub-150 ms barge-in. The hero video above is rendered
-            programmatically in Remotion, embedded live via{' '}
-            <code className="text-arc font-mono text-sm">@remotion/player</code>.
-          </p>
-        </Reveal>
-        <Reveal delay={0.3}>
-          <p className="text-ink-muted">
-            Working interests: agentic orchestration, LLM-agnostic routing,
-            audio-layer human-AI interaction, Claude Code internals.
-          </p>
-        </Reveal>
+
+        {/* Bio column */}
+        <div className="space-y-7 text-lg md:text-xl text-ink-soft leading-relaxed">
+          <Reveal>
+            <p>
+              I build agentic systems that{' '}
+              <span className="text-ink">act</span>, not just chat. Currently
+              architecting{' '}
+              <a
+                href="https://xtrac.app"
+                className="text-arc hover:underline underline-offset-4"
+                target="_blank"
+                rel="noreferrer"
+              >
+                xTrac AI
+              </a>{' '}
+              — a self-configuring multi-agentic platform live with five
+              enterprise pilots — at iEllipse Technologies. Finishing my B.E.
+              in CSE at Dayananda Sagar University.
+            </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p>
+              On the side I built{' '}
+              <a
+                href="https://github.com/ManojMShetty/Maxi"
+                className="text-arc hover:underline underline-offset-4"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Maxi
+              </a>
+              , a voice-first personal AI where Claude Code is the reasoning
+              brain and the entire audio pipeline runs locally. 30+ versions,
+              27 MCP tools, sub-150 ms barge-in. The explainer in the next
+              section is rendered programmatically in Remotion, embedded live
+              via{' '}
+              <code className="text-arc font-mono text-base">
+                @remotion/player
+              </code>
+              .
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <p className="text-ink-muted">
+              Working interests: agentic orchestration, LLM-agnostic routing,
+              audio-layer human-AI interaction, Claude Code internals.
+            </p>
+          </Reveal>
+
+          {/* Quick-facts grid */}
+          <Reveal delay={0.3}>
+            <div className="grid grid-cols-2 gap-3 pt-4">
+              {[
+                {k: 'Now', v: 'AI Architect Intern @ iEllipse'},
+                {k: 'Building', v: 'xTrac AI · Maxi'},
+                {k: 'Studying', v: 'B.E. CSE · DSU 2026'},
+                {k: 'Based in', v: 'Bengaluru, IN'},
+              ].map((f) => (
+                <div
+                  key={f.k}
+                  className="glass rounded-xl px-4 py-3"
+                >
+                  <div className="font-mono text-[10px] text-arc tracking-[0.25em] mb-1">
+                    {f.k.toUpperCase()}
+                  </div>
+                  <div className="text-sm text-ink-soft">{f.v}</div>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
       </div>
     </Section>
   );
@@ -300,6 +328,15 @@ function Maxi() {
 
   return (
     <Section id="maxi" title="Maxi" eyebrow="02" subtitle="Featured · JARVIS-style voice AI">
+      {/* Featured explainer video — full width hero element of the section */}
+      <Reveal className="mb-16">
+        <div className="font-mono text-xs text-ink-muted tracking-[0.3em] flex items-center gap-3 mb-4">
+          <span className="w-4 h-px bg-arc" />
+          LIVE EXPLAINER · 45s · RENDERED IN REMOTION
+        </div>
+        <MaxiPlayer />
+      </Reveal>
+
       <div className="grid lg:grid-cols-[1.2fr,1fr] gap-12 items-start">
         <div className="space-y-6">
           <Reveal>
