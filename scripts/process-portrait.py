@@ -42,9 +42,9 @@ ROOT = Path(__file__).resolve().parents[1]
 PUBLIC = ROOT / "public"
 OUT_PATH = PUBLIC / "manoj-portrait.png"
 
-# Crop tightly to the center 50% horizontally to remove the side people.
-# Adjust these if the source photo has the subject off-center.
-CROP_CENTER_RATIO = 0.50  # keep middle 50% of width
+# Crop ratios — set CROP_CENTER_RATIO=1.0 to skip horizontal cropping
+# (use when the source photo is already tightly cropped to the subject).
+CROP_CENTER_RATIO = 1.0   # 1.0 = no crop; lower = tighter center crop
 TOP_RATIO = 0.0           # start at top
 BOTTOM_RATIO = 1.0        # go to bottom
 OUTPUT_SIZE = (600, 800)  # final size (3:4 aspect ratio)
