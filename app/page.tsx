@@ -20,7 +20,7 @@ import {useRef} from 'react';
 
 export default function Page() {
   return (
-    <main className="relative">
+    <main className="relative above-fx">
       <ScrollProgress />
       <CursorGlow />
       <Nav />
@@ -100,31 +100,35 @@ function Hero() {
     <section
       ref={heroRef}
       id="top"
-      className="relative min-h-screen pt-32 pb-24 px-6 overflow-hidden"
+      className="relative min-h-[100vh] pt-40 md:pt-48 pb-32 px-6 md:px-8 overflow-hidden"
     >
       <div className="absolute inset-0 grid-bg" aria-hidden />
-      <ArcGlow className="-top-40 -right-40 opacity-60" size={900} />
+      <ArcGlow className="-top-40 -right-40 opacity-50" size={1000} />
+      <div className="absolute inset-0 spotlight opacity-50" aria-hidden />
 
       <div className="relative max-w-6xl mx-auto">
         <motion.div style={{y: titleY, opacity}}>
           <Reveal>
-            <div className="inline-flex items-center gap-3 mb-8 font-mono text-xs text-arc tracking-[0.35em]">
-              <span className="w-8 h-px bg-arc/60" />
-              <span>AI ENGINEER · BENGALURU</span>
+            <div className="inline-flex items-center gap-4 mb-10 font-mono text-[10px] text-arc tracking-[0.4em] uppercase">
+              <span className="relative flex w-1.5 h-1.5">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-arc opacity-60 animate-ping" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-arc" />
+              </span>
+              <span>AI Engineer · Bengaluru · Open to roles</span>
             </div>
           </Reveal>
 
-          <h1 className="font-display font-bold tracking-tight leading-[0.92]">
+          <h1 className="font-display font-bold tracking-[-0.04em] leading-[0.88]">
             <div className="text-7xl md:text-9xl">
               <WordReveal text="Manoj" />
             </div>
-            <div className="text-7xl md:text-9xl mt-1 text-gradient-arc">
+            <div className="text-7xl md:text-9xl mt-2 text-gradient-arc">
               <WordReveal text="M C" delay={0.4} />
             </div>
           </h1>
 
-          <Reveal delay={0.8} className="mt-10 max-w-3xl">
-            <p className="text-xl md:text-2xl text-ink-soft leading-relaxed font-light">
+          <Reveal delay={0.8} className="mt-12 max-w-3xl">
+            <p className="text-xl md:text-2xl text-ink-soft leading-[1.55] font-light">
               Building production multi-agent systems and voice-first AI.
               Architect of{' '}
               <span className="text-ink font-medium">xTrac AI</span> at iEllipse.
@@ -776,30 +780,44 @@ function Section({
   return (
     <section
       id={id}
-      className="relative py-28 md:py-36 px-6 border-t border-white/[0.05]"
+      className="relative py-32 md:py-52 px-6 md:px-8"
     >
+      {/* Top divider — animated draw on scroll */}
+      <motion.div
+        className="absolute top-0 left-0 right-0 h-px origin-left"
+        style={{
+          background:
+            'linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.08) 70%, transparent)',
+        }}
+        initial={{scaleX: 0, opacity: 0}}
+        whileInView={{scaleX: 1, opacity: 1}}
+        viewport={{once: true, margin: '-100px'}}
+        transition={{duration: 1.5, ease: [0.22, 1, 0.36, 1]}}
+      />
       <div className="max-w-6xl mx-auto">
-        <Reveal className="mb-14 md:mb-20">
-          <div className="flex items-center gap-4 mb-5">
+        <Reveal className="mb-20 md:mb-28">
+          <div className="flex items-center gap-5 mb-7">
             {eyebrow && (
-              <span className="font-mono text-arc text-xs tracking-[0.3em]">
-                / {eyebrow}
+              <span className="font-mono text-arc text-[10px] tracking-[0.4em] uppercase">
+                Section / {eyebrow}
               </span>
             )}
             <motion.span
-              className="h-px bg-arc/40 origin-left"
+              className="h-px bg-gradient-to-r from-arc/60 to-transparent origin-left"
               initial={{scaleX: 0}}
               whileInView={{scaleX: 1}}
               viewport={{once: true}}
-              transition={{duration: 0.8, ease: 'easeOut'}}
-              style={{width: 80}}
+              transition={{duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.1}}
+              style={{width: 120}}
             />
           </div>
-          <h2 className="text-5xl md:text-6xl font-display font-bold tracking-tight">
+          <h2 className="text-5xl md:text-7xl font-display font-bold tracking-[-0.03em] leading-[0.95]">
             {title}
           </h2>
           {subtitle && (
-            <p className="mt-3 text-ink-muted text-lg">{subtitle}</p>
+            <p className="mt-5 text-ink-soft text-lg md:text-xl font-light">
+              {subtitle}
+            </p>
           )}
         </Reveal>
         {children}

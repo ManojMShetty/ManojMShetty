@@ -16,12 +16,16 @@ import {useEffect, useRef, useState, type ReactNode} from 'react';
 // =========================================================================
 // Reveal — fade + slide up when scrolled into view (the workhorse)
 // =========================================================================
+// Premium Apple-style easing — used everywhere
+const APPLE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const APPLE_IO: [number, number, number, number] = [0.32, 0.72, 0, 1];
+
 export function Reveal({
   children,
   delay = 0,
   className,
   as: As = motion.div,
-  y = 32,
+  y = 40,
 }: {
   children: ReactNode;
   delay?: number;
@@ -30,16 +34,16 @@ export function Reveal({
   y?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, {once: true, margin: '-80px'});
+  const inView = useInView(ref, {once: true, margin: '-100px'});
   const reduce = useReducedMotion();
 
   return (
     <As
       ref={ref}
       className={className}
-      initial={reduce ? false : {opacity: 0, y}}
-      animate={inView ? {opacity: 1, y: 0} : undefined}
-      transition={{duration: 0.8, delay, ease: [0.22, 1, 0.36, 1]}}
+      initial={reduce ? false : {opacity: 0, y, filter: 'blur(8px)'}}
+      animate={inView ? {opacity: 1, y: 0, filter: 'blur(0px)'} : undefined}
+      transition={{duration: 1.0, delay, ease: APPLE_OUT}}
     >
       {children}
     </As>
@@ -82,8 +86,13 @@ export function Stagger({
 }
 
 export const StaggerChild: Variants = {
-  hidden: {opacity: 0, y: 24},
-  show: {opacity: 1, y: 0, transition: {duration: 0.6, ease: [0.22, 1, 0.36, 1]}},
+  hidden: {opacity: 0, y: 32, filter: 'blur(6px)'},
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {duration: 0.9, ease: [0.22, 1, 0.36, 1]},
+  },
 };
 
 // =========================================================================
@@ -119,13 +128,13 @@ export function CursorGlow() {
       style={{
         top: 0,
         left: 0,
-        x: useTransform(sx, (v) => v - 250),
-        y: useTransform(sy, (v) => v - 250),
-        width: 500,
-        height: 500,
+        x: useTransform(sx, (v) => v - 300),
+        y: useTransform(sy, (v) => v - 300),
+        width: 600,
+        height: 600,
         background:
-          'radial-gradient(circle, rgba(0,212,255,0.18) 0%, rgba(0,212,255,0.05) 30%, transparent 60%)',
-        filter: 'blur(40px)',
+          'radial-gradient(circle, rgba(125,211,252,0.14) 0%, rgba(125,211,252,0.04) 35%, transparent 65%)',
+        filter: 'blur(60px)',
       }}
     />
   );
@@ -141,8 +150,12 @@ export function ScrollProgress() {
   return (
     <motion.div
       aria-hidden
-      className="fixed top-0 left-0 h-[2px] z-[60] bg-gradient-to-r from-arc via-ink to-gold"
-      style={{width}}
+      className="fixed top-0 left-0 h-[1.5px] z-[60] origin-left"
+      style={{
+        width,
+        background:
+          'linear-gradient(90deg, rgba(125,211,252,0.8), rgba(245,245,247,0.5), rgba(251,191,36,0.6))',
+      }}
     />
   );
 }
@@ -178,7 +191,8 @@ export function NumberCounter({
     let raf = 0;
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / (duration * 1000));
-      const eased = 1 - Math.pow(1 - t, 3);
+      // quartic ease-out — slower start, smooth landing
+      const eased = 1 - Math.pow(1 - t, 4);
       setN(Math.round(to * eased));
       if (t < 1) raf = requestAnimationFrame(tick);
     };

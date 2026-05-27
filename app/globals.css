@@ -7,63 +7,80 @@
     color-scheme: dark;
   }
 
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   html {
     scroll-behavior: smooth;
   }
 
   body {
     @apply bg-bg text-ink antialiased font-sans;
-    background-image:
-      radial-gradient(ellipse 1400px 900px at 15% -5%, rgba(0, 212, 255, 0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 1200px 700px at 85% 100%, rgba(255, 90, 60, 0.04) 0%, transparent 60%),
-      radial-gradient(ellipse 800px 500px at 50% 50%, rgba(255, 183, 0, 0.02) 0%, transparent 70%);
-    background-attachment: fixed;
+    background-color: #000;
     overflow-x: hidden;
   }
 
+  /* Aurora gradient mesh — slow-moving ambient color wash */
   body::before {
+    content: '';
+    position: fixed;
+    inset: -10%;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 1000px 600px at 20% 10%, rgba(125, 211, 252, 0.08) 0%, transparent 55%),
+      radial-gradient(ellipse 800px 500px at 80% 90%, rgba(251, 113, 133, 0.04) 0%, transparent 55%),
+      radial-gradient(ellipse 700px 400px at 50% 50%, rgba(251, 191, 36, 0.025) 0%, transparent 60%);
+    animation: aurora 25s ease infinite;
+    filter: blur(40px);
+  }
+
+  /* Film-grain noise overlay for cinematic depth */
+  body::after {
     content: '';
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 1;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
     mix-blend-mode: overlay;
   }
 
   ::selection {
-    @apply bg-arc/40 text-ink;
+    @apply bg-arc/30 text-ink;
   }
 
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(0, 212, 255, 0.2);
+    background: rgba(125, 211, 252, 0.12);
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 212, 255, 0.4);
+    background: rgba(125, 211, 252, 0.3);
   }
 }
 
 @layer utilities {
   .text-gradient-arc {
-    background: linear-gradient(135deg, #00d4ff 0%, #e8f4ff 60%, #00d4ff 100%);
+    background: linear-gradient(135deg, #7dd3fc 0%, #f5f5f7 50%, #7dd3fc 100%);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: shimmer 8s linear infinite;
+    animation: shimmer 10s linear infinite;
   }
 
-  .text-gradient-ember {
-    background: linear-gradient(135deg, #ff5a3c 0%, #ffb700 100%);
+  .text-gradient-warm {
+    background: linear-gradient(135deg, #fbbf24 0%, #fb7185 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -71,24 +88,38 @@
 
   .grid-bg {
     background-image:
-      linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
-    background-size: 80px 80px;
-    mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 80%);
+      linear-gradient(rgba(125, 211, 252, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(125, 211, 252, 0.04) 1px, transparent 1px);
+    background-size: 96px 96px;
+    mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
   }
 
+  /* Premium glass — slight inner-edge highlight + soft elevation */
   .glass {
-    @apply bg-white/[0.03] backdrop-blur-xl border border-white/10;
+    background: rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.05) inset,
+      0 0 0 1px rgba(0, 0, 0, 0.3);
   }
 
   .glass-strong {
-    @apply bg-white/[0.05] backdrop-blur-2xl border border-white/15;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.015) 100%);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 24px 60px -20px rgba(0, 0, 0, 0.7),
+      0 8px 24px -12px rgba(0, 0, 0, 0.4);
   }
 
   .glow-arc {
     box-shadow:
-      0 0 30px rgba(0, 212, 255, 0.3),
-      inset 0 0 20px rgba(0, 212, 255, 0.05);
+      0 0 30px rgba(125, 211, 252, 0.2),
+      inset 0 0 20px rgba(125, 211, 252, 0.04);
   }
 
   .ring-arc {
@@ -96,32 +127,63 @@
   }
 
   .mask-fade-x {
-    -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
-    mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
   }
 
-  /* photo treatment — for once the file is dropped */
+  /* Photo frame — premium presentation for the portrait */
   .photo-frame {
-    @apply relative overflow-hidden rounded-2xl;
-    background: radial-gradient(circle at 50% 40%, rgba(0, 212, 255, 0.15) 0%, transparent 70%);
+    @apply relative overflow-hidden rounded-3xl;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(125, 211, 252, 0.18) 0%, transparent 65%),
+      linear-gradient(180deg, #0a0a0c 0%, #050505 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 40px 80px -30px rgba(0, 0, 0, 0.9),
+      0 0 80px -30px rgba(125, 211, 252, 0.3);
   }
 
   .photo-frame::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 50%, rgba(3, 6, 15, 0.6) 100%);
+    background: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, 0.4) 100%);
     pointer-events: none;
+    border-radius: inherit;
+    z-index: 15;
   }
 
   .photo-frame::before {
     content: '';
     position: absolute;
-    inset: -2px;
-    background: linear-gradient(135deg, #00d4ff 0%, transparent 50%, #ffb700 100%);
+    inset: -1px;
+    background: linear-gradient(135deg, rgba(125, 211, 252, 0.6) 0%, transparent 45%, rgba(251, 191, 36, 0.4) 100%);
     border-radius: inherit;
     z-index: -1;
-    opacity: 0.4;
-    filter: blur(20px);
+    opacity: 0.5;
+    filter: blur(16px);
+  }
+
+  /* Subtle scanline for cinematic feel */
+  .scanlines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(125, 211, 252, 0.25) 0px,
+      rgba(125, 211, 252, 0.25) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  }
+
+  /* Spotlight effect — for hero hover */
+  .spotlight {
+    background:
+      radial-gradient(ellipse 600px 400px at 50% 50%, rgba(125, 211, 252, 0.12) 0%, transparent 60%);
+  }
+
+  /* Main wrapper ensures content sits above the body pseudo-elements */
+  .above-fx {
+    position: relative;
+    z-index: 2;
   }
 }

@@ -5,27 +5,36 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Pure black with subtle warm elevation tiers
         bg: {
-          DEFAULT: '#03060f',
-          soft: '#070d1f',
-          card: '#0a1230',
-          border: 'rgba(255,255,255,0.08)',
+          DEFAULT: '#000000',
+          soft: '#070708',
+          card: '#0a0a0c',
+          elevated: '#101013',
+          border: 'rgba(255,255,255,0.06)',
         },
+        // Refined arc-blue: less neon, more sophisticated
         arc: {
-          DEFAULT: '#00d4ff',
-          dim: '#0a4f6b',
-          glow: 'rgba(0,212,255,0.4)',
+          DEFAULT: '#7dd3fc',
+          bright: '#bae6fd',
+          dim: '#0c4a6e',
+          deep: '#082f49',
+          glow: 'rgba(125,211,252,0.3)',
         },
+        // Warmer, more refined gold
         gold: {
-          DEFAULT: '#ffb700',
-          dim: '#6b4e00',
+          DEFAULT: '#fbbf24',
+          dim: '#78350f',
         },
+        // Off-white text — easier on the eyes than pure white
         ink: {
-          DEFAULT: '#e8f4ff',
-          soft: '#a8b8cc',
-          muted: '#5d6b85',
+          DEFAULT: '#f5f5f7',
+          soft: '#a1a1aa',
+          muted: '#52525b',
+          dim: '#27272a',
         },
-        ember: '#ff5a3c',
+        // Used sparingly as accent
+        ember: '#fb7185',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
@@ -33,30 +42,43 @@ const config: Config = {
         mono: ['"JetBrains Mono"', '"SF Mono"', 'Consolas', 'monospace'],
       },
       fontSize: {
-        '8xl': ['8rem', {lineHeight: '0.95', letterSpacing: '-0.04em'}],
-        '9xl': ['10rem', {lineHeight: '0.92', letterSpacing: '-0.05em'}],
-        '10xl': ['12rem', {lineHeight: '0.9', letterSpacing: '-0.06em'}],
+        '8xl': ['8rem', {lineHeight: '0.92', letterSpacing: '-0.04em'}],
+        '9xl': ['10rem', {lineHeight: '0.9', letterSpacing: '-0.05em'}],
+        '10xl': ['12rem', {lineHeight: '0.88', letterSpacing: '-0.06em'}],
+      },
+      letterSpacing: {
+        widest: '0.3em',
+        ultra: '0.4em',
       },
       boxShadow: {
-        arc: '0 0 60px rgba(0, 212, 255, 0.5)',
-        'arc-soft': '0 0 30px rgba(0, 212, 255, 0.2)',
-        'arc-inner': 'inset 0 0 30px rgba(0, 212, 255, 0.1)',
-        glow: '0 20px 80px -20px rgba(0, 212, 255, 0.35)',
+        // Premium elevation — subtle, multi-layer
+        elev: '0 1px 0 rgba(255,255,255,0.05) inset, 0 24px 60px -20px rgba(0,0,0,0.8), 0 8px 24px -12px rgba(0,0,0,0.5)',
+        'elev-lg': '0 1px 0 rgba(255,255,255,0.06) inset, 0 40px 80px -24px rgba(0,0,0,0.9), 0 16px 40px -20px rgba(0,0,0,0.6)',
+        arc: '0 0 80px -20px rgba(125,211,252,0.4)',
+        'arc-tight': '0 0 40px -16px rgba(125,211,252,0.35)',
+        glow: '0 30px 100px -30px rgba(125,211,252,0.3)',
       },
       backdropBlur: {
         xs: '2px',
       },
+      transitionTimingFunction: {
+        // Apple's standard easing
+        'apple': 'cubic-bezier(0.32, 0.72, 0, 1)',
+        'apple-out': 'cubic-bezier(0.22, 1, 0.36, 1)',
+        'apple-in': 'cubic-bezier(0.4, 0, 0.6, 1)',
+      },
       animation: {
-        'fade-in': 'fade-in 1s ease-out forwards',
-        'pulse-slow': 'pulse 4s ease-in-out infinite',
-        'spin-slow': 'spin 20s linear infinite',
-        'marquee': 'marquee 35s linear infinite',
-        'shimmer': 'shimmer 3s ease-in-out infinite',
-        'float': 'float 6s ease-in-out infinite',
+        'fade-in': 'fade-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+        'pulse-slow': 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'spin-slow': 'spin 30s linear infinite',
+        'marquee': 'marquee 40s linear infinite',
+        'shimmer': 'shimmer 4s ease-in-out infinite',
+        'float': 'float 7s ease-in-out infinite',
+        'aurora': 'aurora 20s ease infinite',
       },
       keyframes: {
         'fade-in': {
-          from: {opacity: '0', transform: 'translateY(20px)'},
+          from: {opacity: '0', transform: 'translateY(24px)'},
           to: {opacity: '1', transform: 'translateY(0)'},
         },
         marquee: {
@@ -64,12 +86,16 @@ const config: Config = {
           to: {transform: 'translateX(-50%)'},
         },
         shimmer: {
-          '0%, 100%': {opacity: '0.5'},
+          '0%, 100%': {opacity: '0.6'},
           '50%': {opacity: '1'},
         },
         float: {
           '0%, 100%': {transform: 'translateY(0)'},
-          '50%': {transform: 'translateY(-12px)'},
+          '50%': {transform: 'translateY(-14px)'},
+        },
+        aurora: {
+          '0%, 100%': {transform: 'translate(0, 0) rotate(0deg)'},
+          '50%': {transform: 'translate(30px, -30px) rotate(180deg)'},
         },
       },
     },
