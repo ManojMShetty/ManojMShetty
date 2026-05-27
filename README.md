@@ -5,6 +5,7 @@
 </p>
 
 <p align="center">
+  <a href="https://portfolio-brown-five-26.vercel.app"><strong>Portfolio</strong></a> ·
   <a href="https://github.com/ManojMShetty/Maxi"><strong>Maxi</strong></a> ·
   <a href="https://xtrac.app"><strong>xTrac AI</strong></a> ·
   <a href="https://linkedin.com/in/manoj-m-c">LinkedIn</a> ·

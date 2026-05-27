@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: 'Manoj M C — AI Engineer',
   description:
     'AI engineer building production multi-agent systems and voice-first AI. Architect of xTrac AI. Creator of Maxi — JARVIS-style voice assistant on Claude Code.',
-  metadataBase: new URL('https://manojmshetty.vercel.app'),
+  metadataBase: new URL('https://portfolio-brown-five-26.vercel.app'),
   openGraph: {
     title: 'Manoj M C — AI Engineer',
     description:
