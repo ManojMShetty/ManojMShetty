@@ -508,7 +508,15 @@ function Experience() {
 // Other Projects
 // =========================================================================
 function OtherProjects() {
-  const projects = [
+  const projects: Array<{
+    title: string;
+    tagline: string;
+    desc: string;
+    stack: string[];
+    href: string;
+    live?: string;
+    tag: 'AI' | 'FULL-STACK' | 'FRONTEND';
+  }> = [
     {
       title: 'ZSPA',
       tagline: 'Zero-Shot Process Automator',
@@ -516,8 +524,45 @@ function OtherProjects() {
         'Desktop automation agent translating voice/text into multi-step UI actions via OCR-driven screen understanding and intent parsing. Zero-shot extensibility through an intent-config DSL.',
       stack: ['Python', 'PyTesseract', 'SpeechRecognition', 'Tkinter'],
       href: 'https://github.com/ManojMShetty/ZSPA',
+      tag: 'AI',
+    },
+    {
+      title: 'Reddit Persona Generator',
+      tagline: 'LLM-powered behavioral persona synthesis',
+      desc:
+        'Scrapes a Reddit user\'s posts and comments via PRAW, runs an LLM analysis to extract interests, communication tone, and archetype, then renders a styled persona card as a PNG.',
+      stack: ['Python', 'PRAW', 'Pillow', 'LLM'],
+      href: 'https://github.com/ManojMShetty/reddit-persona-generator',
+      tag: 'AI',
+    },
+    {
+      title: 'Mysore Tourism',
+      tagline: 'Tourism website with chat-backend',
+      desc:
+        'Full-stack tourism platform for Mysore featuring an integrated chat backend for user inquiries. Built from a Figma design with a Vite + TypeScript frontend and a separate Node chat service.',
+      stack: ['TypeScript', 'Vite', 'Node.js', 'Tailwind'],
+      href: 'https://github.com/ManojMShetty/mysore-tourism',
+      live: 'https://mysore-tourism-eight.vercel.app',
+      tag: 'FULL-STACK',
+    },
+    {
+      title: 'Royal Events Co',
+      tagline: 'Event management platform',
+      desc:
+        'Production-deployed event-management web app — landing, booking flow, responsive layouts. React + shadcn/ui frontend, Vite build, Vercel deployment.',
+      stack: ['React', 'TypeScript', 'Vite', 'shadcn/ui', 'Tailwind'],
+      href: 'https://github.com/ManojMShetty/royaleventsco',
+      live: 'https://royaleventsco-bice.vercel.app',
+      tag: 'FRONTEND',
     },
   ];
+
+  const tagColor = {
+    'AI': 'text-arc border-arc/30 bg-arc/5',
+    'FULL-STACK': 'text-gold border-gold/30 bg-gold/5',
+    'FRONTEND': 'text-ember border-ember/30 bg-ember/5',
+  } as const;
+
   return (
     <Section id="projects" title="Other Projects" eyebrow="04">
       <Stagger className="grid md:grid-cols-2 gap-6">
@@ -529,25 +574,45 @@ function OtherProjects() {
             href={p.href}
             target="_blank"
             rel="noreferrer"
-            className="group glass-strong rounded-2xl p-7 hover:border-arc/40 transition block"
+            className="group relative glass-strong rounded-2xl p-7 hover:border-arc/40 transition block"
           >
-            <div className="flex items-baseline justify-between mb-2">
-              <h3 className="text-xl font-display font-semibold">{p.title}</h3>
-              <span className="text-ink-muted group-hover:text-arc transition text-xl">
+            <div className="flex items-start justify-between gap-3 mb-3">
+              <div>
+                <div className="flex items-center gap-3 mb-1">
+                  <h3 className="text-xl font-display font-semibold">{p.title}</h3>
+                  <span
+                    className={`px-2 py-0.5 rounded-full border font-mono text-[9px] tracking-[0.2em] ${tagColor[p.tag]}`}
+                  >
+                    {p.tag}
+                  </span>
+                </div>
+                <div className="text-ink-muted text-sm">{p.tagline}</div>
+              </div>
+              <span className="text-ink-muted group-hover:text-arc transition text-xl shrink-0">
                 ↗
               </span>
             </div>
-            <div className="text-ink-muted text-sm mb-4">{p.tagline}</div>
             <p className="text-ink-soft text-sm leading-relaxed mb-5">{p.desc}</p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {p.stack.map((s) => (
                 <span
                   key={s}
-                  className="px-2.5 py-0.5 bg-arc/[0.08] border border-arc/20 rounded-full text-arc font-mono text-[11px]"
+                  className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 rounded-full text-ink-soft font-mono text-[11px]"
                 >
                   {s}
                 </span>
               ))}
+              {p.live && (
+                <a
+                  href={p.live}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="ml-auto text-[11px] font-mono text-arc hover:underline underline-offset-2"
+                >
+                  live →
+                </a>
+              )}
             </div>
           </motion.a>
         ))}
